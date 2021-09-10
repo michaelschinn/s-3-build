@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width">
+
+    <title>Silly story generator</title>
+
+    <link rel="stylesheet" href="./bootstrap.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&family=Lobster&display=swap" rel="stylesheet">
+
+    <style>
+
+    body {
+        font-family: helvetica, sans-serif;
+        background: #d0e4f7; /* Old browsers */
+        background: -moz-linear-gradient(top,  #d0e4f7 0%, #73b1e7 24%, #0a77d5 50%, #539fe1 79%, #87bcea 100%); /* FF3.6-15 */
+        background: -webkit-linear-gradient(top,  #d0e4f7 0%,#73b1e7 24%,#0a77d5 50%,#539fe1 79%,#87bcea 100%); /* Chrome10-25,Safari5.1-6 */
+        background: linear-gradient(to bottom,  #d0e4f7 0%,#73b1e7 24%,#0a77d5 50%,#539fe1 79%,#87bcea 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d0e4f7', endColorstr='#87bcea',GradientType=0 ); /* IE6-9 */
+
+    }
+
+    label {
+        font-weight: bold;  
+    }
+
+    div {
+        padding-bottom: 20px;
+    }
+
+    input[type="text"] {
+        padding: 16px 32px;
+        text-align: center;
+        border-radius: 10px;
+        box-shadow: 4px 4px 12px #333;
+        width: 100%;
+        max-width: 295px;
+        transition: all .25s ease;
+        outline: none;
+        background-color: #efefef;
+    }
+    input[type="text"]:hover,input[type=text]:focus {
+        transform: scale(1.1);
+        background-color: #fff;
+    }
+
+    p {
+        background: rgba(255,255,255,.75);
+        color: #333;
+        font-size: 24px;
+        padding: 24px;
+        border-radius: 10px;
+        visibility: hidden;
+        font-family: 'Dancing Script', cursive;
+        box-shadow: 4px 4px 12px #333;
+        margin: 32px auto;
+        max-width: 940px;
+    }
+    .row{
+        vertical-align: middle;
+        padding: 8px;
+    }
+    .col{
+        text-align: center;
+    }
+    header{
+        text-align: center;
+        padding-bottom: 48px;
+        padding-top: 48px;
+    }
+    button{
+        padding:16px 32px;
+        border-radius: 10px;
+        background-color: #333333;
+        color: #efefef;
+        box-shadow: 4px 4px 12px #333;
+        transition: all .25s ease;
+        font-family: 'Lobster', cursive;
+        font-size: 24px;
+    }
+    button:hover{
+        transform: scale(1.1);
+        background-color: #666;
+    }
+
+    </style>
+  </head>
+
+  <body>
+      <header>
+          <img class='img-fluid' src="./silly-story-logo.png">
+      </header>
+      <main class="container-fluid">
+        <section class="row">
+            <article class="col">
+                <input id="customname" type="text" placeholder="Enter custom name">
+            </article>
+        </section>
+        <section class='row'>
+            <article class="col">
+                <label for="us">US &nbsp;</label><input id="us" type="radio" name="ukus" value="us" checked> &nbsp; &nbsp; &nbsp;
+                <label for="uk">UK &nbsp;</label><input id="uk" type="radio" name="ukus" value="uk">
+            </article>
+        </section>
+        <section class='row'>
+            <article class="col">
+                <button class="randomize">Generate Random Story!</button>
+            </article>
+        </section>
+        <section class="row">
+            <article class="col">
+                <p class="story"></p>
+            </article>
+        </section>
+    </main>
+    <script src="./main.js"></script>
+
+    
+  </body>
+</html>
