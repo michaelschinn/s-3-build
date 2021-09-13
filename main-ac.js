@@ -6,15 +6,23 @@ function initUi(){
 
     alarmClock.time = document.getElementById('time');
 
-    alarmClock.setAlarmHours = document.getElementById('setAlarmHours');
-    alarmClock.setAlarmMinutes = document.getElementById('setAlarmMinutes');
-    alarmClock.setAlarmSeconds = document.getElementById('setAlarmSeconds');
-    alarmClock.setAlarmButton = document.getElementById('setAlarmBtn');
-
     alarmClock.timeFormat12Btn = document.getElementById('12hr');
     alarmClock.timeFormat24Btn = document.getElementById('24hr');
     alarmClock.timeFormat = 12;
     setTimeFormat(alarmClock.timeFormat);
+
+    alarmClock.setAlarmFrameBtn = document.getElementById('setAlarm');
+    alarmClock.turnAlarmOffBtn = document.getElementById('turnAlarmOff');
+
+    alarmClock.dismissAlarmBtn = document.getElementById('dismissAlarmBtn');
+    alarmClock.snoozeBtn = document.getElementById('snoozeBtn');
+
+    alarmClock.setAlarmHours = document.getElementById('setAlarmHours');
+    alarmClock.setAlarmMinutes = document.getElementById('setAlarmMinutes');
+    alarmClock.setAlarmSeconds = document.getElementById('setAlarmSeconds');
+    alarmClock.setAlarmAmBtn = document.getElementById('setAlarmAm');
+    alarmClock.setAlarmPmBtn = document.getElementById('setAlarmPm');
+    alarmClock.setAlarmButton = document.getElementById('setAlarmBtn');
 }
 
 function setTimeFormat(tForm){
@@ -139,12 +147,7 @@ function setAlarm(){
         );
 
     console.log(alarmClock.alarmTimeSeconds);
-
-    alarmClock.alarmCountdown = alarmClock.alarmTimeSeconds - alarmClock.currentTimeSeconds;
-
     alarmClock.alarmSet = true;
-
-    console.log(alarmClock.alarmCountdown);
 }
 
 function checkAlarm(){
@@ -153,6 +156,7 @@ function checkAlarm(){
             alarmClock.trigger = true;
             triggerAlarm();
         }
+        alarmClock.alarmCountdown = alarmClock.alarmTimeSeconds - alarmClock.currentTimeSeconds;
         console.log(alarmClock.alarmCountdown);
     }
 }
@@ -183,6 +187,26 @@ function main(){
         alarmClock.timeFormat = 24;
         setTimeFormat(alarmClock.timeFormat);
     });
+    alarmClock.dismissAlarmBtn.addEventListener('click', () => {
+        alarmClock.trigger = false;
+    });
+    alarmClock.snoozeBtn.addEventListener('click', () => {
+        if (alarmClock.trigger === true){
+            alarmClock.alarmTimeSeconds = alarmClock.currentTimeSeconds + 300;
+            alarmClock.trigger = false;
+        }
+    });
+    alarmClock.turnAlarmOffBtn.addEventListener('click', () => {
+        if (alarmClock.alarmSet === true){
+            alarmClock.alarmSet = false;
+        }
+    });
+    /*alarmClock.setAlarmAmBtn.addEventListener('click', () => {
+        
+    });
+    alarmClock.setAlarmPmBtn.addEventListener('click', () => {
+        
+    });*/
 }
 
 main();
