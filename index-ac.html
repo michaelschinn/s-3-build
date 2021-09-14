@@ -1,13 +1,16 @@
 <!DOCTYPE html>
 <html>
     <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport" content="width=device-width">
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width">
 
-    <title>Alarm Clock</title>
-
-    <link rel="stylesheet" href="./bootstrap.min.css">
+		<title>Alarm Clock</title>
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Nova+Mono&display=swap" rel="stylesheet">
+		<link rel="stylesheet" href="./bootstrap.min.css">
+		<link rel="stylesheet" href="./style-ac.css">
     </head>
     <body>
         <header>
@@ -16,31 +19,52 @@
                 </article>
             </section>
         </header>
-        <main class='container'>
-            <section id='alarmClock' class="row">
-                <article class="col">
-                    <span id='time'></span>
-				</article>
-				<article id="timeFormat" class="col">
-					<button id="12hr">12hr</button>
-					<button id="24hr">24hr</button>
-				</article>
-            </section>
-            <section id='uiControls' class="row">
-                <article class="col">
-                    <button id="setAlarm">Alarm</button>
-                    <button id="turnAlarmOff">Alarm Off</button>
-				</article>
-				<article id="alarmTriggeredFrame" class="col">
-                    <button id="dismissAlarmBtn">Dismiss</button>
-                    <button id="snoozeBtn">Snooze</button>
-				</article>
-				<article id="setAlarmFrame" class="col">
-					<select id="setAlarmHours"></select><select id="setAlarmMinutes"></select><select id="setAlarmSeconds"></select>
-					<button id="setAlarmAm">AM</button>
-					<button id="setAlarmPm">PM</button>
-                    <button id="setAlarmBtn">Set Alarm</button>
-                </article>
+        <main>
+            <div id="date">
+                <span id="month"></span> /
+                <span id="day"></span> /
+                <span id="year"></span>
+            </div>
+            <div id='alarmClock' class="container-fluid">
+                <section id="display">
+                    <article>
+                        <span id='time'>
+                            <span id="hh"></span>:<span id="mm"></span>:<span id="ss"></span><span id="ap"></span>
+                        </span>
+                    </article>
+                </section>
+                <section id='uiControls' class="">
+
+                    <article id="timeFormat_alarmFrame" class="">
+                        <button id="set12hr" class="active">12hr</button><!--
+                        --><button id="set24hr">24hr</button>
+                        <button id="setAlarm">Set Alarm</button>
+                        <button id="turnAlarmOff" class="hidden">Disable Alarm</button>
+                    </article>
+
+                    <article id="alarmTriggeredFrame" class="hidden">
+                        <button id="dismissAlarmBtn">Dismiss</button>
+                        <button id="snoozeBtn">Snooze</button>
+                    </article>
+
+                    <article id="alarmDateFrame" class="hidden">
+                        <button id="cancelSetDateBtn">Back</button>
+                        <button id="setDateTodayBtn">Today</button><!--
+                        --><button id="setDateFutureBtn">Future Date</button>
+                    </article>
+
+                    <article id="setAlarmFrame" class="hidden">
+                        <button id="cancelSetAlarmBtn" class="red">Back</button>
+                        <select id="setAlarmHours"></select><!--    
+                        --><select id="setAlarmMinutes"></select><!--
+                        --><select id="setAlarmSeconds"></select>
+                        <button id="setAlarmAm">AM</button><!--
+                        --><button id="setAlarmPm">PM</button>
+                        <button id="setAlarmBtn">Set Alarm</button>
+                    </article>
+                </section>
+			</div>
+			<section class="row">
             </section>
         </main>
         <footer>
