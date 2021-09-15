@@ -46,20 +46,23 @@
                         <button id="dismissAlarmBtn">Dismiss</button>
                         <button id="snoozeBtn">Snooze</button>
                     </article>
-
+                    <!--
                     <article id="alarmDateFrame" class="hidden">
                         <button id="cancelSetDateBtn">Back</button>
-                        <button id="setDateTodayBtn">Today</button><!--
-                        --><button id="setDateFutureBtn">Future Date</button>
+                        <button id="setDateTodayBtn">Today</button><button id="setDateFutureBtn">Future Date</button>
                     </article>
-
+                    <article id="alarmFutureDateFrame" class="hidden">
+                        <button id="cancelSetFutureDateBtn">Back</button>
+                        <input id="datePicker" type="date">
+                        <button id="setFutureAlarmBtn">Set Alarm</button>
+                    </article>
+                    -->
                     <article id="setAlarmFrame" class="hidden">
                         <button id="cancelSetAlarmBtn" class="red">Back</button>
-                        <select id="setAlarmHours"></select><!--    
-                        --><select id="setAlarmMinutes"></select><!--
-                        --><select id="setAlarmSeconds"></select>
-                        <button id="setAlarmAm">AM</button><!--
-                        --><button id="setAlarmPm">PM</button>
+                        <!--<select id="setAlarmHours"></select><select id="setAlarmMinutes"></select><select id="setAlarmSeconds"></select>
+                        <button id="setAlarmAm">AM</button><button id="setAlarmPm">PM</button>-->
+                        <input id="setAlarmTime" type="time">
+                        <input id="setAlarmDate" type="date">
                         <button id="setAlarmBtn">Set Alarm</button>
                     </article>
                 </section>

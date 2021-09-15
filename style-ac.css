@@ -60,6 +60,9 @@ body{
 }
 
 #timeFormat_alarmFrame.hidden{
+    left:100vw;
+}
+#timeFormat_alarmFrame.left{
     left:-100vw;
 }
 
@@ -76,7 +79,8 @@ body{
     right: -101vw;
 }
 
-#alarmDateFrame{
+#alarmDateFrame,
+#alarmFutureDateFrame{
     position: absolute;
     display: inline-block;
     width: 100vw;
@@ -84,11 +88,12 @@ body{
     bottom:0;
     transition: right .25s ease;
 }
-
-#alarmDateFrame.hidden{
+#alarmDateFrame.hidden,
+#alarmFutureDateFrame.hidden{
     right: -101vw;
 }
-#alarmDateFrame.left{
+#alarmDateFrame.left,
+#alarmFutureDateFrame.left{
     right: 101vw;
 }
 
@@ -103,7 +108,7 @@ body{
     border: 2px solid var(--primary-color);
     border-radius: 10px;
 }
-button, select{
+button, select, input[type=date], input[type=time], input[type=datetime-local]{
     background-color: var(--element-bg-color);
     color: var(--primary-color);
     border: 2px solid var(--primary-color);
@@ -128,6 +133,11 @@ button.active:hover{
     background-color: var(--primary-color);
     box-shadow: none;
     cursor: default;
+}
+
+input[type=date], input[type=time], input[type=datetime-local]{
+    background-color: var(--secondary-color);
+    color: var(--main-bg-color);
 }
 
 button#setAlarmAm, button#set12hr, button#setDateTodayBtn{

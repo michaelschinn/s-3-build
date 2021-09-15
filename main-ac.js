@@ -1,11 +1,13 @@
 const alarmClock = document.getElementById('alarmClock');
 
 function initUi(){
-
+    // set intial variables
     alarmClock.alarmSet = false;
     alarmClock.timeFormat = 12;
     alarmClock.amPm = 'AM';
+    alarmClock.runtimeIterator = 0;
 
+    // define display elements
     alarmClock.time = document.getElementById('time');
     alarmClock.hh = document.getElementById('hh');
     alarmClock.mm = document.getElementById('mm');
@@ -15,11 +17,15 @@ function initUi(){
     alarmClock.dateDay = document.getElementById('day');
     alarmClock.dateYear = document.getElementById('year');
 
+    alarmClock.uiControls = document.getElementById('uiControls');
+
+    // setup time format - set/disable alarm frame
+    alarmClock.timeFormat_alarmFrame = document.getElementById('timeFormat_alarmFrame');
     alarmClock.timeFormat12Btn = document.getElementById('set12hr');
     alarmClock.timeFormat12Btn.addEventListener('click', () => {
         if (alarmClock.timeFormat === 12){} else {
             alarmClock.timeFormat = 12;
-            setTimeFormat(alarmClock.timeFormat);
+            //setTimeFormat(alarmClock.timeFormat);
             toggleClass(alarmClock.setAlarmAmBtn, 'hidden');
             toggleClass(alarmClock.setAlarmPmBtn, 'hidden');
         }
@@ -33,23 +39,21 @@ function initUi(){
     alarmClock.timeFormat24Btn.addEventListener('click', () => {
         if (alarmClock.timeFormat === 24){} else {
             alarmClock.timeFormat = 24;
-            setTimeFormat(alarmClock.timeFormat);
-            toggleClass(alarmClock.setAlarmAmBtn, 'hidden');
-            toggleClass(alarmClock.setAlarmPmBtn, 'hidden');
+            //setTimeFormat(alarmClock.timeFormat);
+            //toggleClass(alarmClock.setAlarmAmBtn, 'hidden');
+            //toggleClass(alarmClock.setAlarmPmBtn, 'hidden');
         }
         if (alarmClock.timeFormat24Btn.classList.contains('active')){} else {
             alarmClock.timeFormat24Btn.classList.add('active');
             alarmClock.timeFormat12Btn.classList.remove('active');
         }
     });
-    alarmClock.timeFormat_alarmFrame = document.getElementById('timeFormat_alarmFrame');
-
-    alarmClock.setAlarmFrame = document.getElementById('setAlarmFrame');
     alarmClock.setAlarmFrameBtn = document.getElementById('setAlarm');
     alarmClock.setAlarmFrameBtn.addEventListener('click', () => {
-        frameSwitch(
+        frameSwitcher(
             alarmClock.timeFormat_alarmFrame,
-            alarmClock.alarmDateFrame
+            alarmClock.setAlarmFrame,
+            'slideLeft'
         );
     });
 
@@ -62,42 +66,96 @@ function initUi(){
         toggleClass(alarmClock.setAlarmFrameBtn, 'hidden');
     });
 
+    // setup alarm triggered frame
+    alarmClock.alarmTriggeredFrame = document.getElementById('alarmTriggeredFrame');
     alarmClock.dismissAlarmBtn = document.getElementById('dismissAlarmBtn');
     alarmClock.dismissAlarmBtn.addEventListener('click', () => {
+        alarmClock.alarmSet = false;
         alarmClock.trigger = false;
+        toggleClass(alarmClock.uiControls, 'alarmTriggered');
+        frameSwitcher(
+            alarmClock.alarmTriggeredFrame,
+            alarmClock.timeFormat_alarmFrame,
+            'slideRight'
+        );
+        toggleClass(alarmClock.turnAlarmOffBtn, 'hidden');
+        toggleClass(alarmClock.setAlarmFrameBtn, 'hidden');
+        untriggerAlarm();
     });
 
     alarmClock.snoozeBtn = document.getElementById('snoozeBtn');
     alarmClock.snoozeBtn.addEventListener('click', () => {
-        if (alarmClock.trigger === true){
-            alarmClock.alarmTimeSeconds = alarmClock.currentTimeSeconds + 300;
-            alarmClock.trigger = false;
-        }
+        alarmClock.alarmTime = getTime();
+        alarmClock.trigger = false;
+        toggleClass(alarmClock.uiControls, 'alarmTriggered');
+        frameSwitcher(
+            alarmClock.alarmTriggeredFrame,
+            alarmClock.timeFormat_alarmFrame,
+            'slideRight'
+        );
+        toggleClass(alarmClock.turnAlarmOffBtn, 'hidden');
+        toggleClass(alarmClock.setAlarmFrameBtn, 'hidden');
+        untriggerAlarm();
     });
 
+    // setup alarm date frame
+    /*
     alarmClock.alarmDateFrame = document.getElementById('alarmDateFrame');
 
     alarmClock.cancelSetDateBtn = document.getElementById('cancelSetDateBtn');
     alarmClock.cancelSetDateBtn.addEventListener('click', () => {
-        frameSwitch(
+        frameSwitcher(
             alarmClock.alarmDateFrame,
-            alarmClock.timeFormat_alarmFrame
+            alarmClock.timeFormat_alarmFrame,
+            'slideRight'
         );
     });
 
     alarmClock.setDateTodayBtn = document.getElementById('setDateTodayBtn');
     alarmClock.setDateTodayBtn.addEventListener('click', () => {
         alarmClock.alarmDateFrame.classList.add('left');
-        frameSwitch(
-            alarmClock.setAlarmFrame
+        frameSwitcher(
+            alarmClock.alarmDateFrame,
+            alarmClock.setAlarmFrame,
+            'slideLeft'
+        );
+    });
+    alarmClock.setDateFutureBtn = document.getElementById('setDateFutureBtn');
+    alarmClock.setDateFutureBtn.addEventListener('click', () => {
+        frameSwitcher(
+            alarmClock.alarmDateFrame,
+            alarmClock.alarmFutureDateFrame,
+            'slideLeft'
+        )
+    });
+
+*/
+    // Set Future Date Frame
+    /*
+    alarmClock.alarmFutureDateFrame = document.getElementById('alarmFutureDateFrame');
+
+    alarmClock.cancelSetFutureDateBtn = document.getElementById('cancelSetFutureDateBtn');
+    alarmClock.cancelSetFutureDateBtn.addEventListener('click', () => {
+        frameSwitcher(
+            alarmClock.alarmFutureDateFrame,
+            alarmClock.alarmDateFrame,
+            'slideRight'
         );
     });
 
-    alarmClock.setDateFutureBtn = document.getElementById('setDateFutureBtn');
-    alarmClock.setDateFutureBtn.addEventListener('click', () => {
-        /* date picker code goes here */
+    alarmClock.setFutureAlarmBtn = document.getElementById('setFutureAlarmBtn');
+    alarmClock.setFutureAlarmBtn.addEventListener('click', () => {
+        frameSwitcher(
+            alarmClock.alarmFutureDateFrame,
+            alarmClock.setAlarmFrame,
+            'slideLeft'
+        );
     });
+*/
 
+    // setup set alarm frame
+    alarmClock.setAlarmFrame = document.getElementById('setAlarmFrame');
+/*
     alarmClock.setAlarmHours = document.getElementById('setAlarmHours');
     alarmClock.setAlarmMinutes = document.getElementById('setAlarmMinutes');
     alarmClock.setAlarmSeconds = document.getElementById('setAlarmSeconds');
@@ -120,27 +178,70 @@ function initUi(){
             alarmClock.setAlarmAmBtn.classList.remove('active');
         }
     });
-
+*/
+    alarmClock.setAlarmDate = document.getElementById('setAlarmDate');
+    alarmClock.setAlarmTime = document.getElementById('setAlarmTime');
     alarmClock.setAlarmButton = document.getElementById('setAlarmBtn');
     alarmClock.setAlarmButton.addEventListener('click', () => {
         setAlarm();
+
+        frameSwitcher(
+            alarmClock.setAlarmFrame,
+            alarmClock.timeFormat_alarmFrame,
+            'slideRight'
+        )
+
         toggleClass(alarmClock.setAlarmFrameBtn, 'hidden');
         toggleClass(alarmClock.turnAlarmOffBtn, 'hidden');
-        toggleClass(alarmClock.alarmDateFrame, 'left');
-        toggleClass(alarmClock.alarmDateFrame, 'hidden');
-        frameSwitch(
-            alarmClock.timeFormat_alarmFrame, 
-            alarmClock.setAlarmFrame
-        );
     });
 
     alarmClock.cancelSetAlarmButton = document.getElementById('cancelSetAlarmBtn');
     alarmClock.cancelSetAlarmButton.addEventListener('click', () => {
-        alarmClock.alarmDateFrame.classList.remove('left');
-        frameSwitch( 
-            alarmClock.setAlarmFrame
+        frameSwitcher( 
+            alarmClock.setAlarmFrame,
+            alarmClock.timeFormat_alarmFrame,
+            'slideRight'
         );
     });
+}
+
+function frameSwitcher(activeFrame, nextFrame, trans, otherFrames = undefined){
+    switch (trans) {
+        case 'slideLeft':
+            nextFrame.classList.remove('hidden');
+            activeFrame.classList.add('left');
+            break;
+        
+        case 'slideRight':
+            nextFrame.classList.remove('left');
+            activeFrame.classList.add('hidden');
+            break;
+        
+        case 'instant':
+            let nextFrameTransition = nextFrame.style.transisiton,
+            activeFrameTransisition = activeFrame.style.transition;
+            nextFrame.style.transition = '';
+            activeFrame.style.transisition = '';
+            nextFrame.classList.remove('hidden');
+            activeFrame.classList.add('hidden');
+            nextFrame.style.transition = nextFrameTransition;
+            activeFrame.style.transition = activeFrameTransisition;
+
+        default:
+            break;
+    }
+    if (otherFrames !== undefined){
+        for (let i = 0; i < otherFrames.length; i++){
+            let currentTransition = otherFrames[i].style.transition;
+            if (otherFrames[i].classList.contains('left')){
+                otherFrames[i].style.transition = '';
+                otherFrames[i].classList.replace('left', 'hidden');
+                otherFrames[i].style.transition = currentTransition;
+            }
+        }
+    }
+    alarmClock.currentFrame = nextFrame;
+    alarmClock.lastFrame = activeFrame;
 }
 
 function setTimeFormat(tForm){
@@ -152,7 +253,9 @@ function setTimeFormat(tForm){
         removeOptions(alarmClock.setAlarmHours);
         createOptions(alarmClock.setAlarmHours, tForm);
     }
+    removeOptions(alarmClock.setAlarmMinutes);
     createOptions(alarmClock.setAlarmMinutes, 60);
+    removeOptions(alarmClock.setAlarmSeconds);
     createOptions(alarmClock.setAlarmSeconds, 60);
 }
 
@@ -207,6 +310,18 @@ function convertToSeconds(hours, minutes, seconds){
     return (((hours * 60) + minutes) * 60) + seconds;
 }
 
+function getTime(){
+    let today = new Date();
+
+    alarmClock.hours = today.getHours();
+    alarmClock.minutes = today.getMinutes();
+    alarmClock.seconds = today.getSeconds();
+
+    alarmClock.theTime = formatNumber(alarmClock.hours) + ':' + formatNumber(alarmClock.minutes + 5);
+
+    return alarmClock.theTime;
+}
+
 function setTime(){
     let today = new Date();
     alarmClock.month = today.getMonth() + 1;
@@ -217,9 +332,14 @@ function setTime(){
     alarmClock.dateDay.textContent = alarmClock.day;
     alarmClock.dateYear.textContent = alarmClock.year;
 
+    alarmClock.theDate = alarmClock.year + '-' + formatNumber(alarmClock.month) + '-' + formatNumber(alarmClock.day);
+
     alarmClock.hours = today.getHours();
     alarmClock.minutes = today.getMinutes();
     alarmClock.seconds = today.getSeconds();
+
+    alarmClock.theTime = formatNumber(alarmClock.hours) + ':' + formatNumber(alarmClock.minutes);
+
     if (alarmClock.timeFormat === 12){
         if (alarmClock.hours >= 13){
             today.time = 
@@ -250,7 +370,7 @@ function setTime(){
             ':' + 
             formatNumber(alarmClock.seconds);
     }
-    console.log(today.time);
+    console.log(alarmClock.theDate + '  ' + alarmClock.theTime);
 
     alarmClock.currentTimeSeconds = 
         convertToSeconds(
@@ -259,7 +379,7 @@ function setTime(){
             alarmClock.seconds
         );
 
-    console.log(alarmClock.currentTimeSeconds);
+    //console.log(alarmClock.currentTimeSeconds);
 
     alarmClock.time.textContent = today.time;
 }
@@ -268,14 +388,8 @@ function toggleClass (target, className){
     target.classList.toggle(className);
 }
 
-
-function frameSwitch(){
-    for (i = 0; i < arguments.length; i++){
-        toggleClass(arguments[i], 'hidden');
-    }
-}
-
 function setAlarm(){
+    /*
     if (alarmClock.timeFormat === 12){
         if (alarmClock.amPm === 'AM'){
             alarmClock.alarmHours = alarmClock.setAlarmHours.value;
@@ -294,26 +408,57 @@ function setAlarm(){
             alarmClock.alarmMinutes,
             alarmClock.alarmSeconds
         );
-
-    console.log(alarmClock.alarmTimeSeconds);
+*/
+    alarmClock.alarmDate = alarmClock.setAlarmDate.value;
+    console.log(alarmClock.alarmDate);
+    alarmClock.alarmTime = alarmClock.setAlarmTime.value;
+    console.log(alarmClock.alarmTime);
+    //console.log(alarmClock.alarmTimeSeconds);
     alarmClock.alarmSet = true;
 }
 
 function checkAlarm(){
     if (alarmClock.alarmSet === true){
+        /*
         if (alarmClock.alarmCountdown <= 0){
-            alarmClock.trigger = true;
             triggerAlarm();
+        } else {
+            untriggerAlarm();
         }
         alarmClock.alarmCountdown = alarmClock.alarmTimeSeconds - alarmClock.currentTimeSeconds;
-        console.log(alarmClock.alarmCountdown);
+        */
+        if (alarmClock.alarmDate === alarmClock.theDate && alarmClock.alarmTime === alarmClock.theTime){
+            triggerAlarm();
+        } else if (alarmClock.alarmTime === alarmClock.theTime){
+            triggerAlarm();
+        }
+        //console.log(alarmClock.alarmCountdown);
     }
 }
 
 function triggerAlarm(){
-    if (alarmClock.trigger === true){
-        console.log('Alarm triggered!');
-    }
+    alarmClock.trigger = true;
+    clearInterval(alarmClock.timer);
+    toggleClass(alarmClock.uiControls, 'alarmTriggered');
+    frameSwitcher(
+        alarmClock.timeFormat_alarmFrame,
+        alarmClock.alarmTriggeredFrame,
+        'slideLeft'
+    );
+    alarmClock.alarmSound = playSound('alarm-clock-beep.mp3');
+    alarmClock.alarmTriggerTimer = setInterval(alarmClock.alarmSound, 1000);
+    console.log('Alarm triggered!');
+}
+
+function untriggerAlarm(){
+    alarmClock.trigger = false;
+    clearInterval(alarmClock.alarmTriggerTimer);
+    alarmClock.timer = setInterval(update, 1000);
+}
+
+function playSound(file){
+    let sound = new Audio(file);
+    sound.play();
 }
 
 function update(){
@@ -324,8 +469,8 @@ function update(){
 function main(){
     console.clear();
     initUi();
-    setTimeFormat(alarmClock.timeFormat);
-    setInterval(update, 250);
+    //setTimeFormat(alarmClock.timeFormat);
+    alarmClock.timer = setInterval(update, 1000);
 }
 
 main();
